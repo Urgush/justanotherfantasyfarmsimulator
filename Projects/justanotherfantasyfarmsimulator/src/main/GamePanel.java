@@ -1,5 +1,7 @@
 package main;
 
+import gamestate.GameStateManager;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -29,6 +31,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	private BufferedImage image;
 	private Graphics2D graphics;
 	
+	// Game State Manager
+	private GameStateManager gsm;
+	
 	public GamePanel() {
 		
 		// TODO Check what super does exactly and if it is necessary
@@ -57,6 +62,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 		graphics = (Graphics2D) graphics;
 		
 		running = true;
+		
+		gsm = new GameStateManager();
 		
 	}
 	
@@ -91,12 +98,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public void update() {
-		
-		
-		
+		gsm.update();
 	}
 	
-	public void draw() {}
+	public void draw() {
+		gsm.draw(graphics);
+	}
+	
 	public void drawToScreen() {
 		
 		Graphics graphicsDraw = getGraphics();
@@ -106,7 +114,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public void keyTyped(KeyEvent key) {}
-	public void keyPressed(KeyEvent key) {}
-	public void keyReleased(KeyEvent key) {}
+	
+	public void keyPressed(KeyEvent key) {
+		gsm.keyPressed(key.getKeyCode());
+	}
+	
+	public void keyReleased(KeyEvent key) {
+		gsm.keyReleased(key.getKeyCode());
+	}
 	
 }
